@@ -2,14 +2,13 @@ package org.eu.xaoyao.zhdaily.http;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
 
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import org.eu.xaoyao.zhdaily.MyApplication;
-import org.eu.xaoyao.zhdaily.Utils.Utils;
+import org.eu.xaoyao.zhdaily.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +21,6 @@ import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -191,6 +189,20 @@ public class ImageLoader {
                 .subscribe(subscriber);
     }
 
+
+    /**
+     * 将缓存记录同步到journal文件中
+     */
+    public void fluchCache(){
+        if(mDiskLruCache!=null){
+            try {
+                mDiskLruCache.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * 从本地读取图片，如果不存在从网络获取
      * @param url
@@ -267,7 +279,7 @@ public class ImageLoader {
      * 从网络下载数据
      */
     private void downFromNet(String url, final OutputStream out, Subscriber<Boolean> subscriber) {
-        Log.d("url",url);
+
         mZHApiManager.getImage(url)
                 .map(new Func1<ResponseBody, Boolean>() {
                     @Override

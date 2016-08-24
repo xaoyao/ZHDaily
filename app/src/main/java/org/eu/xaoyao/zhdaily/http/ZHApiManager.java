@@ -1,14 +1,11 @@
 package org.eu.xaoyao.zhdaily.http;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import org.eu.xaoyao.zhdaily.MyApplication;
-import org.eu.xaoyao.zhdaily.Utils.Utils;
+import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
+import org.eu.xaoyao.zhdaily.utils.Utils;
 import org.eu.xaoyao.zhdaily.bean.SplashImage;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -119,6 +115,18 @@ public class ZHApiManager {
      */
     public Observable<ResponseBody> getImage(String url){
         return mZHApi.getImage(url);
+    }
+
+
+    /**
+     * 获取新闻的主题日报列表
+     * @param subscriber
+     */
+    public void getNewsThemes(Subscriber<NewsThemesBean> subscriber){
+        mZHApi.getNewsThemes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 
 

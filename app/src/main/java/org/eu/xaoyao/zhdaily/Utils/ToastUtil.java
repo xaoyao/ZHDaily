@@ -1,4 +1,4 @@
-package org.eu.xaoyao.zhdaily.Utils;
+package org.eu.xaoyao.zhdaily.utils;
 
 import android.content.Context;
 import android.widget.Toast;

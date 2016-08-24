@@ -1,5 +1,6 @@
 package org.eu.xaoyao.zhdaily;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import org.eu.xaoyao.zhdaily.bean.SplashImage;
 import org.eu.xaoyao.zhdaily.http.ImageLoader;
 import org.eu.xaoyao.zhdaily.http.ZHApiManager;
+import org.eu.xaoyao.zhdaily.ui.HomeActivity;
 
 import rx.Subscriber;
 
@@ -40,7 +42,9 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(),"进入",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"进入",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                finish();
             }
         },2000);
 
