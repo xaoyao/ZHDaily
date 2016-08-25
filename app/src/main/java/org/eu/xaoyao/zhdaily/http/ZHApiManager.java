@@ -3,6 +3,7 @@ package org.eu.xaoyao.zhdaily.http;
 import android.text.TextUtils;
 
 import org.eu.xaoyao.zhdaily.MyApplication;
+import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.utils.Utils;
 import org.eu.xaoyao.zhdaily.bean.SplashImage;
@@ -22,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -41,6 +43,7 @@ public class ZHApiManager {
 
     /**
      * 获取ZHApiManager实例
+     *
      * @return
      */
     public static ZHApiManager getInstance() {
@@ -99,6 +102,7 @@ public class ZHApiManager {
 
     /**
      * 获取闪屏页图片对象
+     *
      * @param imageSize
      * @param subscriber
      */
@@ -111,19 +115,62 @@ public class ZHApiManager {
 
     /**
      * 获取网络图片
+     *
      * @param url
      */
-    public Observable<ResponseBody> getImage(String url){
+    public Observable<ResponseBody> getImage(String url) {
         return mZHApi.getImage(url);
     }
 
 
     /**
      * 获取新闻的主题日报列表
+     *
      * @param subscriber
      */
-    public void getNewsThemes(Subscriber<NewsThemesBean> subscriber){
+    public void getNewsThemes(Subscriber<NewsThemesBean> subscriber) {
         mZHApi.getNewsThemes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 获取最新新闻列表
+     */
+    public void getLatestNews(Subscriber<NewsListBean> subscriber) {
+        mZHApi.getLatestNews()
+                .map(new Func1<NewsListBean, NewsListBean>() {
+                    @Override
+                    public NewsListBean call(NewsListBean newsListBean) {
+                        for (NewsListBean.StoryBean bean : newsListBean.stories) {
+                            bean.publishDate = newsListBean.date;
+                        }
+                        return newsListBean;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 获取过往新闻
+     * @param date
+     * 每次新闻返回的date可以用来请求前一天新闻
+     * @param subscriber
+     */
+    public void getBeforeNews(String date, Subscriber<NewsListBean> subscriber) {
+        mZHApi.getBeforeNews(date)
+                .map(new Func1<NewsListBean, NewsListBean>() {
+                    @Override
+                    public NewsListBean call(NewsListBean newsListBean) {
+                        for (NewsListBean.StoryBean bean : newsListBean.stories) {
+                            bean.publishDate = newsListBean.date;
+                        }
+                        return newsListBean;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

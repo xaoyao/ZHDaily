@@ -8,10 +8,11 @@ import java.util.ArrayList;
 public class NewsListBean {
 
     public String date;
-    public ArrayList stories;
-    public ArrayList top_stories;
+    public ArrayList<StoryBean> stories;
+    public ArrayList<TopStoryBean> top_stories;
 
     public class StoryBean {
+        public String publishDate;
         public ArrayList<String> images;
         public int type;
         public String id;
