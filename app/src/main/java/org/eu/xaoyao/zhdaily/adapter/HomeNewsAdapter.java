@@ -23,8 +23,15 @@ import butterknife.ButterKnife;
  * Created by liu on 2016/8/25 0025.
  */
 public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHolder> {
-    public static final int HAS_DATE = 1;
-    public static final int NO_DATE = 2;
+    public static final int TYPE_HAS_DATE = 1;
+    public static final int TYPE_NO_DATE = 2;
+
+    public static final int TYPE_HEADER = 3;
+
+    /**
+     * 头布局
+     */
+    public View mHeaderView;
 
     private ArrayList<NewsListBean.StoryBean> mNewsList;
     private Context mContext;
@@ -66,6 +73,16 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
     }
 
     /**
+     * 设置头布局
+     *
+     * @param headerView
+     */
+    public void setHeaderView(View headerView) {
+        mHeaderView = headerView;
+    }
+
+
+    /**
      * 决定使用哪种布局
      *
      * @param position
@@ -73,20 +90,40 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
      */
     @Override
     public int getItemViewType(int position) {
-        //第一条数据显示日期
-        if (position == 0) {
-            return HAS_DATE;
+
+        if (mHeaderView != null) {
+            //显示头布局
+            if (position == 0) {
+                return TYPE_HEADER;
+            } else if (position == 1) {
+                //第一条数据显示日期
+                return TYPE_HAS_DATE;
+            } else {
+                //如果和前一条日期一样，就不显示日期，不一样，显示日期
+                return mNewsList.get(position).publishDate
+                        .equals(mNewsList.get(position - 1).publishDate)
+                        ? TYPE_NO_DATE : TYPE_HAS_DATE;
+            }
         } else {
-            //如果和前一条日期一样，就不显示日期，不一样，显示日期
-            return mNewsList.get(position).publishDate
-                    .equals(mNewsList.get(position - 1).publishDate)
-                    ? NO_DATE : HAS_DATE;
+            //第一条数据显示日期
+            if (position == 0) {
+                return TYPE_HAS_DATE;
+            } else {
+                //如果和前一条日期一样，就不显示日期，不一样，显示日期
+                return mNewsList.get(position).publishDate
+                        .equals(mNewsList.get(position - 1).publishDate)
+                        ? TYPE_NO_DATE : TYPE_HAS_DATE;
+            }
         }
+
+
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == HAS_DATE) {
+        if (mHeaderView != null && viewType == TYPE_HEADER) {
+            return new ViewHolder(mHeaderView);
+        } else if (viewType == TYPE_HAS_DATE) {
             return new HasDateViewHolder(
                     LayoutInflater.from(mContext).inflate(R.layout.item_home_news, null, false));
         } else {
@@ -98,8 +135,13 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+        //头布局不做处理
+        if(getItemViewType(position)==TYPE_HEADER){
+            return;
+        }
+
         //下拉加载更多新闻
-        if (position > mNewsList.size() - 2 && mIsLoadingBefore == false) {
+        if (position > mNewsList.size() - 3 && mIsLoadingBefore == false) {
             mIsLoadingBefore = true;
             if (mOnLoadingBeforeListener != null) {
                 mOnLoadingBeforeListener.onLoadingBefore();
@@ -148,6 +190,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
      * @param entity
      */
     private void bindNoDateNews(ViewHolder holder, NewsListBean.StoryBean entity) {
+
         //新闻没有图片处理
         if (entity.images != null && entity.images.size() > 0) {
             holder.newsImage.setVisibility(View.VISIBLE);
@@ -163,7 +206,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
         return mNewsList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.news_image)
         ImageView newsImage;
@@ -173,11 +216,15 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
+            //头布局不做处理
+            if (itemView == mHeaderView) {
+                return;
+            }
             ButterKnife.bind(this, itemView);
         }
     }
 
-    public static class HasDateViewHolder extends ViewHolder {
+    public class HasDateViewHolder extends ViewHolder {
 
         @BindView(R.id.news_date)
         TextView newsDate;
