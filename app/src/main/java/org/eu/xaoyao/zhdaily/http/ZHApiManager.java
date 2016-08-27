@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import org.eu.xaoyao.zhdaily.MyApplication;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
+import org.eu.xaoyao.zhdaily.bean.ThemeNewsListBean;
 import org.eu.xaoyao.zhdaily.utils.Utils;
 import org.eu.xaoyao.zhdaily.bean.SplashImage;
 
@@ -156,8 +157,8 @@ public class ZHApiManager {
 
     /**
      * 获取过往新闻
-     * @param date
-     * 每次新闻返回的date可以用来请求前一天新闻
+     *
+     * @param date       每次新闻返回的date可以用来请求前一天新闻
      * @param subscriber
      */
     public void getBeforeNews(String date, Subscriber<NewsListBean> subscriber) {
@@ -174,6 +175,34 @@ public class ZHApiManager {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
+    }
+
+    /**
+     * 获取主题日报的新闻列表
+     *
+     * @param id
+     * @param subscriber
+     */
+    public void getThemeNewsList(String id, Subscriber<ThemeNewsListBean> subscriber) {
+        mZHApi.getThemeNewsList(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 获取主题日报获取过往新闻
+     * @param themeId
+     * @param newsId
+     * @param subscriber
+     */
+    public void getbeforeThemeNews(String themeId, String newsId,
+                                   Subscriber<ThemeNewsListBean> subscriber) {
+        mZHApi.getbeforeThemeNews(themeId,newsId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+
     }
 
 

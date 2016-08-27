@@ -34,10 +34,13 @@ public class HomeActivity extends AppCompatActivity {
 
     private NewsThemesBean mNewsThemes;
 
+    private HomeFragment mHomeFragment;
+
     /**
      * 当前是不是在主页面
      */
-    private boolean isHome=true;
+    private boolean isHome = true;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +56,10 @@ public class HomeActivity extends AppCompatActivity {
         initNavigation();
 
         //进入主界面
-        FragmentManager fm=getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content,new HomeFragment());
-        transaction.commit();
+        mHomeFragment = new HomeFragment();
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.beginTransaction()
+                .replace(R.id.content, mHomeFragment).commit();
 
     }
 
@@ -103,25 +106,48 @@ public class HomeActivity extends AppCompatActivity {
                                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                                     if (item.getItemId() == R.id.home) {
+                                        if (!isHome) {
+                                            mFragmentManager.beginTransaction()
+                                                    .replace(R.id.content, mHomeFragment).commit();
+                                            isHome = true;
+                                        }
+                                        mToolbar.setTitle("知乎日报");
                                         mDrawerLayout.closeDrawers();
                                     } else {
-                                        for (NewsThemesBean.NewsThemeBean theme : mNewsThemes.others) {
-                                            if (theme.id == item.getItemId()) {
-//                                                ToastUtil.showToast(getApplicationContext(), theme.name);
-                                                Snackbar.make(mNavigationView,theme.name,Snackbar.LENGTH_SHORT).show();
-                                                mDrawerLayout.closeDrawers();
-                                            }
-                                        }
+                                        toThemeNews(item.getItemId());
                                     }
                                     return true;
                                 }
                             });
+
                 }
 
             }
         });
 
 
+    }
+
+    /**
+     * 进入主题新闻页面
+     *
+     * @param id
+     */
+    private void toThemeNews(@NonNull int id) {
+        for (NewsThemesBean.NewsThemeBean theme : mNewsThemes.others) {
+            if (theme.id == id) {
+                ThemeNewsFragment fragment = new ThemeNewsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("themeId", theme.id);
+                fragment.setArguments(bundle);
+
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.content, fragment).commit();
+                mToolbar.setTitle(theme.name);
+                mDrawerLayout.closeDrawers();
+                isHome = false;
+            }
+        }
     }
 
 
@@ -133,5 +159,18 @@ public class HomeActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (!isHome) {
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.content, mHomeFragment).commit();
+            isHome = true;
+            mNavigationView.setCheckedItem(R.id.home);
+            return;
+        }
+        super.onBackPressed();
     }
 }

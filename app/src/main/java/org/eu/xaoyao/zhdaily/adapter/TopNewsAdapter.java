@@ -2,6 +2,7 @@ package org.eu.xaoyao.zhdaily.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
@@ -46,6 +47,7 @@ public class TopNewsAdapter extends PagerAdapter {
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             view.setLayoutParams(params);
             view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            view.setColorFilter(Color.parseColor("#757575"), PorterDuff.Mode.MULTIPLY);
             mImages.add(view);
         }
     }

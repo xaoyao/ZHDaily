@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.bean.SplashImage;
+import org.eu.xaoyao.zhdaily.bean.ThemeNewsListBean;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
@@ -23,6 +24,7 @@ public interface ZHApi {
 
     /**
      * 获取欢迎页图片信息
+     *
      * @param imageSize
      * @return
      */
@@ -31,6 +33,7 @@ public interface ZHApi {
 
     /**
      * 获取最新新闻
+     *
      * @return
      */
     @GET("api/4/news/latest")
@@ -38,8 +41,8 @@ public interface ZHApi {
 
     /**
      * 获取过往新闻
-     * @param date
-     * 每次新闻返回的date可以用来请求前一天新闻
+     *
+     * @param date 每次新闻返回的date可以用来请求前一天新闻
      * @return
      */
     @GET("api/4/news/before/{date}")
@@ -47,6 +50,7 @@ public interface ZHApi {
 
     /**
      * 获取新闻详情
+     *
      * @param id
      * @return
      */
@@ -57,6 +61,7 @@ public interface ZHApi {
     /**
      * 获取新闻的额外信息
      * 评论数量，所获的『赞』的数量等
+     *
      * @param id
      * @return
      */
@@ -66,6 +71,7 @@ public interface ZHApi {
 
     /**
      * 获取新闻的主题日报列表
+     *
      * @return
      */
     @GET("api/4/themes")
@@ -73,12 +79,22 @@ public interface ZHApi {
 
     /**
      * 获取主题日报的新闻列表
+     *
      * @param id
      * @return
      */
     @GET("api/4/theme/{id}")
-    Observable getThemeNewsList(@Path("id") String id);
+    Observable<ThemeNewsListBean> getThemeNewsList(@Path("id") String id);
 
+    /**
+     * 获取主题日报获取过往新闻
+     * @param themeId
+     * @param newsId
+     * @return
+     */
+    @GET("api/4/theme/{themeId}/before/{newsId}")
+    Observable<ThemeNewsListBean> getbeforeThemeNews(@Path("themeId") String themeId,
+                                                     @Path("newsId") String newsId);
 
 
 }

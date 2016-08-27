@@ -155,6 +155,7 @@ public class HomeFragment extends Fragment {
         }
 
         mLlPoints.removeAllViews();
+        //初始化小圆点
         for (int i = 0; i < mTopNewsList.size(); i++) {
             ImageView imageView = new ImageView(getContext());
             imageView.setImageResource(R.drawable.point_selector);
@@ -177,12 +178,12 @@ public class HomeFragment extends Fragment {
 
     /**
      * 更新选中的小圆点
+     *
      * @param realPosition
      */
     private void updateCheckedPoint(int realPosition) {
         for (int i = 0; i < mLlPoints.getChildCount(); i++) {
-            View view = mLlPoints.getChildAt(i);
-            view.setEnabled(i == realPosition);
+            mLlPoints.getChildAt(i).setEnabled(i == realPosition);
         }
     }
 
