@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.adapter.ThemeNewsAdapter;
-import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.bean.ThemeNewsListBean;
 import org.eu.xaoyao.zhdaily.http.ImageLoader;
 import org.eu.xaoyao.zhdaily.http.ZHApiManager;
@@ -108,7 +107,7 @@ public class ThemeNewsFragment extends Fragment {
      * 下拉时加载更多新闻
      */
     private void loadingBeforeNews() {
-        mZhApiManager.getbeforeThemeNews(mThemeId + "", mThemeNewsList.get(mThemeNewsList.size() - 1).id,
+        mZhApiManager.getBeforeThemeNews(mThemeId + "", mThemeNewsList.get(mThemeNewsList.size() - 1).id,
                 new Subscriber<ThemeNewsListBean>() {
                     @Override
                     public void onCompleted() {

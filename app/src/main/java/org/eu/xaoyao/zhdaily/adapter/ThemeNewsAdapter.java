@@ -1,6 +1,8 @@
 package org.eu.xaoyao.zhdaily.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +13,13 @@ import android.widget.TextView;
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.bean.ThemeNewsListBean;
 import org.eu.xaoyao.zhdaily.http.ImageLoader;
+import org.eu.xaoyao.zhdaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by liu on 2016/8/27 0027.
@@ -136,6 +140,9 @@ public class ThemeNewsAdapter extends RecyclerView.Adapter<ThemeNewsAdapter.View
         @BindView(R.id.news_image)
         ImageView newsImage;
 
+        @BindView(R.id.card_view)
+        CardView cardView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             //头布局不做处理
@@ -145,6 +152,15 @@ public class ThemeNewsAdapter extends RecyclerView.Adapter<ThemeNewsAdapter.View
 
             ButterKnife.bind(this, itemView);
         }
+
+        @OnClick(R.id.card_view)
+        public void click() {
+            Intent intent = new Intent(mContext, NewsDetailActivity.class);
+            String id = mThemeNewsList.get(getAdapterPosition()).id;
+            intent.putExtra("newsId", id);
+            mContext.startActivity(intent);
+        }
+
     }
 
     public interface OnLoadingBeforeListener {

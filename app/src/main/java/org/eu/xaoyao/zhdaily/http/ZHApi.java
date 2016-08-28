@@ -2,6 +2,7 @@ package org.eu.xaoyao.zhdaily.http;
 
 import android.graphics.Bitmap;
 
+import org.eu.xaoyao.zhdaily.bean.NewsDetailBean;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.bean.SplashImage;
@@ -55,7 +56,7 @@ public interface ZHApi {
      * @return
      */
     @GET("api/4/news/{id}")
-    Observable getNewsDetail(@Path("id") String id);
+    Observable<NewsDetailBean> getNewsDetail(@Path("id") String id);
 
 
     /**
@@ -93,7 +94,7 @@ public interface ZHApi {
      * @return
      */
     @GET("api/4/theme/{themeId}/before/{newsId}")
-    Observable<ThemeNewsListBean> getbeforeThemeNews(@Path("themeId") String themeId,
+    Observable<ThemeNewsListBean> getBeforeThemeNews(@Path("themeId") String themeId,
                                                      @Path("newsId") String newsId);
 
 

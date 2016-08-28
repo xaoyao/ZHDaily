@@ -1,6 +1,7 @@
 package org.eu.xaoyao.zhdaily.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v4.view.PagerAdapter;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.http.ImageLoader;
+import org.eu.xaoyao.zhdaily.ui.NewsDetailActivity;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,8 @@ public class TopNewsAdapter extends PagerAdapter {
     private ImageLoader mImageLoader;
     private ArrayList<NewsListBean.TopStoryBean> mTopNewsList;
     private ArrayList<ImageView> mImages;
+
+    private OnItemClickListener mOnItemClickListener;
 
     public TopNewsAdapter(Context context, ArrayList<NewsListBean.TopStoryBean> topNewsList) {
         mContext = context;
@@ -39,6 +43,11 @@ public class TopNewsAdapter extends PagerAdapter {
         initImages();
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        mOnItemClickListener=onItemClickListener;
+
+    }
+
     private void initImages() {
         mImages = new ArrayList<>();
         for (int i = 0; i < mTopNewsList.size(); i++) {
@@ -48,6 +57,16 @@ public class TopNewsAdapter extends PagerAdapter {
             view.setLayoutParams(params);
             view.setScaleType(ImageView.ScaleType.CENTER_CROP);
             view.setColorFilter(Color.parseColor("#757575"), PorterDuff.Mode.MULTIPLY);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mOnItemClickListener!=null){
+                        mOnItemClickListener.onClick();
+                    }
+                }
+            });
+
             mImages.add(view);
         }
     }
@@ -76,5 +95,10 @@ public class TopNewsAdapter extends PagerAdapter {
         mImageLoader.loadImage(mTopNewsList.get(p).image, view);
         container.addView(view);
         return view;
+    }
+
+
+    public interface OnItemClickListener{
+        void onClick();
     }
 }

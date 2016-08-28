@@ -168,6 +168,7 @@ public class HomeActivity extends AppCompatActivity {
             mFragmentManager.beginTransaction()
                     .replace(R.id.content, mHomeFragment).commit();
             isHome = true;
+            mToolbar.setTitle("知乎日报");
             mNavigationView.setCheckedItem(R.id.home);
             return;
         }

@@ -3,6 +3,7 @@ package org.eu.xaoyao.zhdaily.http;
 import android.text.TextUtils;
 
 import org.eu.xaoyao.zhdaily.MyApplication;
+import org.eu.xaoyao.zhdaily.bean.NewsDetailBean;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.bean.ThemeNewsListBean;
@@ -11,6 +12,7 @@ import org.eu.xaoyao.zhdaily.bean.SplashImage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.IdentityHashMap;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -192,17 +194,31 @@ public class ZHApiManager {
 
     /**
      * 获取主题日报获取过往新闻
+     *
      * @param themeId
      * @param newsId
      * @param subscriber
      */
-    public void getbeforeThemeNews(String themeId, String newsId,
+    public void getBeforeThemeNews(String themeId, String newsId,
                                    Subscriber<ThemeNewsListBean> subscriber) {
-        mZHApi.getbeforeThemeNews(themeId,newsId)
+        mZHApi.getBeforeThemeNews(themeId, newsId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
 
+    }
+
+    /**
+     * 获取新闻详情
+     *
+     * @param id
+     * @param subscriber
+     */
+    public void getNewsDetail(String id, Subscriber<NewsDetailBean> subscriber) {
+        mZHApi.getNewsDetail(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 
 

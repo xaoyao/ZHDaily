@@ -1,6 +1,7 @@
 package org.eu.xaoyao.zhdaily.ui;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -33,6 +34,7 @@ import java.util.logging.ErrorManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -85,8 +87,6 @@ public class HomeFragment extends Fragment {
 
         initHeaderView();
 
-        mTopNewsAdapter = new TopNewsAdapter(getContext(), mTopNewsList);
-        mVpTonNews.setAdapter(mTopNewsAdapter);
 
         mHomeNewsAdapter = new HomeNewsAdapter(getContext(), mNewsList);
 
@@ -127,6 +127,9 @@ public class HomeFragment extends Fragment {
         mLlPoints = (LinearLayout) mHeaderView.findViewById(R.id.ll_points);
         mTopNewsTitle = (TextView) mHeaderView.findViewById(R.id.top_news_title);
 
+        mTopNewsAdapter = new TopNewsAdapter(getContext(), mTopNewsList);
+        mVpTonNews.setAdapter(mTopNewsAdapter);
+
         mVpTonNews.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -143,6 +146,18 @@ public class HomeFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        mTopNewsAdapter.setOnItemClickListener(new TopNewsAdapter.OnItemClickListener() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(getContext(), NewsDetailActivity.class);
+                int realPosition = mVpTonNews.getCurrentItem() % mTopNewsList.size();
+                String id = mTopNewsList.get(realPosition).id;
+                intent.putExtra("newsId", id);
+                getContext().startActivity(intent);
+            }
+        });
+
 
     }
 

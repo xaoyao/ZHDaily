@@ -1,6 +1,8 @@
 package org.eu.xaoyao.zhdaily.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.http.ImageLoader;
+import org.eu.xaoyao.zhdaily.ui.NewsDetailActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by liu on 2016/8/25 0025.
@@ -136,7 +140,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         //头布局不做处理
-        if(getItemViewType(position)==TYPE_HEADER){
+        if (getItemViewType(position) == TYPE_HEADER) {
             return;
         }
 
@@ -208,6 +212,9 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.card_view)
+        CardView cardView;
+
         @BindView(R.id.news_image)
         ImageView newsImage;
 
@@ -221,6 +228,14 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
                 return;
             }
             ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.card_view)
+        public void click() {
+            Intent intent = new Intent(mContext, NewsDetailActivity.class);
+            String id = mNewsList.get(getAdapterPosition()).id;
+            intent.putExtra("newsId", id);
+            mContext.startActivity(intent);
         }
     }
 
