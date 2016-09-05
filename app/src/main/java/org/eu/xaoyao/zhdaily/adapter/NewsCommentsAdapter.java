@@ -3,6 +3,7 @@ package org.eu.xaoyao.zhdaily.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import org.eu.xaoyao.zhdaily.http.ImageLoader;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +43,7 @@ public class NewsCommentsAdapter extends RecyclerView.Adapter<NewsCommentsAdapte
         mContext = context;
         mComments = comments;
         mImageLoader = ImageLoader.getInstance();
-        format = new SimpleDateFormat("mm月dd日 hh:MM:ss");
+        format = new SimpleDateFormat("MM月dd日 HH:mm:ss");
     }
 
     public void setComments(ArrayList<CommentsListBean.CommentBean> comments) {
@@ -108,7 +110,7 @@ public class NewsCommentsAdapter extends RecyclerView.Adapter<NewsCommentsAdapte
         holder.author.setText(entity.author);
         holder.likes.setText(entity.likes+"");
         holder.content.setText(entity.content);
-        holder.time.setText(format.format(entity.time));
+        holder.time.setText(format.format(entity.time*1000));
     }
 
     @Override
