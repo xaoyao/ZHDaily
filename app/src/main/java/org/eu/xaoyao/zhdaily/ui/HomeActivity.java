@@ -1,6 +1,7 @@
 package org.eu.xaoyao.zhdaily.ui;
 
 import android.graphics.Color;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import org.eu.xaoyao.zhdaily.ActivityCollector;
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.http.ZHApiManager;
@@ -46,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ActivityCollector.addActivity(this);
 
         mZhApiManager = ZHApiManager.getInstance();
 
@@ -162,6 +165,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    private long exitTime=0;
     @Override
     public void onBackPressed() {
         if (!isHome) {
@@ -172,6 +176,21 @@ public class HomeActivity extends AppCompatActivity {
             mNavigationView.setCheckedItem(R.id.home);
             return;
         }
-        super.onBackPressed();
+
+        //双击退出
+        if(System.currentTimeMillis()-exitTime>2000){
+            ToastUtil.showToast(getApplicationContext(),"再按一次退出程序");
+            exitTime= System.currentTimeMillis();
+        }else {
+            ActivityCollector.finishAll();
+        }
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }

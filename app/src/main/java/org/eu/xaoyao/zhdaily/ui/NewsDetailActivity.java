@@ -1,6 +1,8 @@
 package org.eu.xaoyao.zhdaily.ui;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,11 +14,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MotionEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import org.eu.xaoyao.zhdaily.ActivityCollector;
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.bean.NewsDetailBean;
 import org.eu.xaoyao.zhdaily.http.ImageLoader;
@@ -25,6 +30,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscriber;
 
 
 public class NewsDetailActivity extends AppCompatActivity {
@@ -45,6 +51,10 @@ public class NewsDetailActivity extends AppCompatActivity {
     @BindView(R.id.appbar_image)
     ImageView mAppbarImage;
 
+
+    @BindView(R.id.news_title)
+    TextView mNewsTitle;
+
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
@@ -53,13 +63,19 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private ImageLoader mImageLoader;
 
+    private boolean isDetail = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
+
+        ActivityCollector.addActivity(this);
+
         ButterKnife.bind(this);
 
+        mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -86,11 +102,25 @@ public class NewsDetailActivity extends AppCompatActivity {
         DetailFragment detailFragment = new DetailFragment();
         detailFragment.setArguments(bundle);
 
-        CommentFragment commentFragment = new CommentFragment();
-        commentFragment.setArguments(bundle);
+        CommentsFragment commentsFragment = new CommentsFragment();
+        commentsFragment.setArguments(bundle);
         mFragments.add(detailFragment);
-        mFragments.add(commentFragment);
+        mFragments.add(commentsFragment);
         mViewPager.setAdapter(new ContentAdapter(getSupportFragmentManager()));
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                isDetail = position == 0 ? true : false;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
 
     }
 
@@ -112,39 +142,41 @@ public class NewsDetailActivity extends AppCompatActivity {
             mAppbarImage.setVisibility(View.VISIBLE);
             mImageLoader.loadImage(news.image, mAppbarImage);
         }
+        mNewsTitle.setText(news.title);
 
     }
 
-
-    int startX;
-    int startY;
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_comment,menu);
+        return true;
+    }
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startX= (int) event.getX();
-                startY= (int) event.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                int endX= (int) event.getX();
-                int endY= (int) event.getY();
-                int dx=endX-startX;
-                int dy=endY-startY;
-                Log.d("dx",dx+"");
-                //右滑
-                if(Math.abs(dx)>Math.abs(dy)){
-                    if(dx>0){
-                        finish();
-                    }
-                    return true;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (isDetail) {
+                    finish();
+                } else {
+                    mViewPager.setCurrentItem(0);
+                    isDetail = true;
                 }
                 break;
         }
-        return super.onTouchEvent(event);
+        return super.onOptionsItemSelected(item);
     }
 
 
+    @Override
+    public void onBackPressed() {
+        if (isDetail) {
+            finish();
+        } else {
+            mViewPager.setCurrentItem(0);
+            isDetail = true;
+        }
+    }
 
     public class ContentAdapter extends FragmentPagerAdapter {
 
@@ -163,5 +195,9 @@ public class NewsDetailActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 }

@@ -31,6 +31,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ActivityCollector.addActivity(this);
         transparent();
 
         mRlRoot = (RelativeLayout) findViewById(R.id.rl_root);
@@ -115,5 +116,11 @@ public class SplashActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }

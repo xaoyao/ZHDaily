@@ -56,7 +56,7 @@ public class TopNewsAdapter extends PagerAdapter {
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             view.setLayoutParams(params);
             view.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            view.setColorFilter(Color.parseColor("#757575"), PorterDuff.Mode.MULTIPLY);
+//            view.setColorFilter(Color.parseColor("#757575"), PorterDuff.Mode.MULTIPLY);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

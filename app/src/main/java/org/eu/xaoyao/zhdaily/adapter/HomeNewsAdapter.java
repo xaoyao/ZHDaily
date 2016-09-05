@@ -104,8 +104,8 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
                 return TYPE_HAS_DATE;
             } else {
                 //如果和前一条日期一样，就不显示日期，不一样，显示日期
-                return mNewsList.get(position).publishDate
-                        .equals(mNewsList.get(position - 1).publishDate)
+                return mNewsList.get(position-1).publishDate
+                        .equals(mNewsList.get(position - 2).publishDate)
                         ? TYPE_NO_DATE : TYPE_HAS_DATE;
             }
         } else {
@@ -145,7 +145,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
         }
 
         //下拉加载更多新闻
-        if (position > mNewsList.size() - 3 && mIsLoadingBefore == false) {
+        if (position > mNewsList.size() - 3 && !mIsLoadingBefore) {
             mIsLoadingBefore = true;
             if (mOnLoadingBeforeListener != null) {
                 mOnLoadingBeforeListener.onLoadingBefore();
@@ -153,7 +153,12 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
 
         }
 
-        NewsListBean.StoryBean entity = mNewsList.get(position);
+        NewsListBean.StoryBean entity = null;
+        if (mHeaderView != null) {
+            entity = mNewsList.get(position - 1);
+        } else {
+            entity = mNewsList.get(position);
+        }
         if (entity == null) {
             return;
         }
@@ -233,7 +238,14 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.ViewHo
         @OnClick(R.id.card_view)
         public void click() {
             Intent intent = new Intent(mContext, NewsDetailActivity.class);
-            String id = mNewsList.get(getAdapterPosition()).id;
+            int position;
+            if(mHeaderView!=null){
+                position=getAdapterPosition()-1;
+            }else {
+                position=getAdapterPosition();
+            }
+            String id = mNewsList.get(position).id;
+
             intent.putExtra("newsId", id);
             mContext.startActivity(intent);
         }

@@ -115,6 +115,8 @@ public class ThemeNewsFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
+                        mThemeNewsAdapter.setIsLoadingBefore(false);
                     }
 
                     @Override

@@ -2,7 +2,9 @@ package org.eu.xaoyao.zhdaily.http;
 
 import android.graphics.Bitmap;
 
+import org.eu.xaoyao.zhdaily.bean.CommentsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsDetailBean;
+import org.eu.xaoyao.zhdaily.bean.NewsInfoBean;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.bean.SplashImage;
@@ -67,7 +69,7 @@ public interface ZHApi {
      * @return
      */
     @GET("api/4/story-extra/{id}")
-    Observable getNewsInfo(@Path("id") String id);
+    Observable<NewsInfoBean> getNewsInfo(@Path("id") String id);
 
 
     /**
@@ -89,6 +91,7 @@ public interface ZHApi {
 
     /**
      * 获取主题日报获取过往新闻
+     *
      * @param themeId
      * @param newsId
      * @return
@@ -96,6 +99,45 @@ public interface ZHApi {
     @GET("api/4/theme/{themeId}/before/{newsId}")
     Observable<ThemeNewsListBean> getBeforeThemeNews(@Path("themeId") String themeId,
                                                      @Path("newsId") String newsId);
+
+    /**
+     * 获取新闻对应的长评论
+     *
+     * @param newsId
+     * @return
+     */
+    @GET("api/4/story/{newsId}/long-comments")
+    Observable<CommentsListBean> getLongComments(@Path("newsId") String newsId);
+
+    /**
+     * 获取更多长评
+     *
+     * @param newsId
+     * @param commentId
+     * @return
+     */
+    @GET("api/4/story/{newsId}/long-comments/before/{commentId}")
+    Observable<CommentsListBean> getMoreLongComments(@Path("newsId") String newsId
+            , @Path("commentId") String commentId);
+
+    /**
+     * 获取新闻对应的短评论
+     *
+     * @return
+     */
+    @GET("api/4/story/{newsId}/short-comments")
+    Observable<CommentsListBean> getShortComments(@Path("newsId") String newsId);
+
+    /**
+     * 获取更多短评
+     *
+     * @param newsId
+     * @param commentId
+     * @return
+     */
+    @GET("api/4/story/{newsId}/short-comments/before/{commentId}")
+    Observable<CommentsListBean> getMoreShortComments(@Path("newsId") String newsId
+            , @Path("commentId") String commentId);
 
 
 }

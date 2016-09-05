@@ -124,7 +124,7 @@ public class ImageLoader {
     }
 
 
-    public void loadImage(final String url, final ImageView imageView){
+    public void loadImage(final String url, final ImageView imageView) {
         imageView.setTag(url);
 
         loadImage(url, new Subscriber<Bitmap>() {
@@ -139,7 +139,7 @@ public class ImageLoader {
 
             @Override
             public void onNext(Bitmap bitmap) {
-                if(imageView.getTag().equals(url)){
+                if (imageView.getTag().equals(url)) {
                     imageView.setImageBitmap(bitmap);
                 }
             }
@@ -149,6 +149,7 @@ public class ImageLoader {
 
     /**
      * 加载图片，有缓存
+     *
      * @param url
      * @param subscriber
      */
@@ -175,7 +176,7 @@ public class ImageLoader {
 
                             @Override
                             public void onNext(Bitmap bitmap) {
-                                if(bitmap!=null){
+                                if (bitmap != null) {
                                     subscriber.onNext(bitmap);
                                 }
                             }
@@ -185,7 +186,8 @@ public class ImageLoader {
                 }
 
             }
-        }).observeOn(AndroidSchedulers.mainThread())
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
 
@@ -193,8 +195,8 @@ public class ImageLoader {
     /**
      * 将缓存记录同步到journal文件中
      */
-    public void fluchCache(){
-        if(mDiskLruCache!=null){
+    public void fluchCache() {
+        if (mDiskLruCache != null) {
             try {
                 mDiskLruCache.flush();
             } catch (IOException e) {
@@ -205,15 +207,16 @@ public class ImageLoader {
 
     /**
      * 从本地读取图片，如果不存在从网络获取
+     *
      * @param url
      * @param subscriber
      */
-    private void getBitmapFromDiskCache(final String url,Subscriber<Bitmap> subscriber) {
+    private void getBitmapFromDiskCache(final String url, Subscriber<Bitmap> subscriber) {
         Observable.create(new Observable.OnSubscribe<Bitmap>() {
             @Override
             public void call(final Subscriber<? super Bitmap> subscriber) {
 
-                InputStream inputStream=null;
+                InputStream inputStream = null;
 
                 final String key = hashKeyForDisk(url);
                 try {
@@ -247,9 +250,9 @@ public class ImageLoader {
                                 }
                             }
                         });
-                        snapshot=mDiskLruCache.get(key);
+                        snapshot = mDiskLruCache.get(key);
                     }
-                    if(snapshot!=null){
+                    if (snapshot != null) {
                         inputStream = snapshot.getInputStream(0);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         subscriber.onNext(bitmap);
@@ -258,8 +261,8 @@ public class ImageLoader {
                 } catch (IOException e) {
                     e.printStackTrace();
                     subscriber.onError(e);
-                }finally {
-                    if(inputStream!=null){
+                } finally {
+                    if (inputStream != null) {
                         try {
                             inputStream.close();
                         } catch (IOException e) {
@@ -269,9 +272,9 @@ public class ImageLoader {
                 }
             }
         })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(subscriber);
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
 
     }
 

@@ -1,13 +1,80 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.eu.xaoyao.zhdaily.ui.CommentFragment">
+    android:scrollbars="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tv_long_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            tools:text="0条长评" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_long_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.CommentsFragment">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:id="@+id/empty_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:visibility="gone">-->
+
+        <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<ImageView-->
+        <!--android:id="@+id/empty_image"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:src="@drawable/comment_empty" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/empty_image"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:text="深度长评虚位以待"-->
+        <!--android:textColor="@android:color/darker_gray" />-->
+
+        <!--</RelativeLayout>-->
+        <!--</android.support.v4.widget.NestedScrollView>-->
+
+        <TextView
+            android:id="@+id/tv_short_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            tools:text="0条短评" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_short_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

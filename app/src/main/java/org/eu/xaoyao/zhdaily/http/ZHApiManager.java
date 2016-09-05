@@ -3,7 +3,9 @@ package org.eu.xaoyao.zhdaily.http;
 import android.text.TextUtils;
 
 import org.eu.xaoyao.zhdaily.MyApplication;
+import org.eu.xaoyao.zhdaily.bean.CommentsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsDetailBean;
+import org.eu.xaoyao.zhdaily.bean.NewsInfoBean;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.bean.ThemeNewsListBean;
@@ -216,6 +218,78 @@ public class ZHApiManager {
      */
     public void getNewsDetail(String id, Subscriber<NewsDetailBean> subscriber) {
         mZHApi.getNewsDetail(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 获取新闻对应的长评论
+     *
+     * @param newsId
+     * @param subscriber
+     */
+    public void getLongComments(String newsId, Subscriber<CommentsListBean> subscriber) {
+        mZHApi.getLongComments(newsId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 获取新闻对应的短评论
+     *
+     * @param newsId
+     * @param subscriber
+     */
+    public void getShortComments(String newsId, Subscriber<CommentsListBean> subscriber) {
+        mZHApi.getShortComments(newsId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+
+    /**
+     * 获取更多长评
+     *
+     * @param newsId
+     * @param commentId
+     * @param subscriber
+     */
+    public void getMoreLongComments(String newsId, String commentId,
+                                    Subscriber<CommentsListBean> subscriber) {
+        mZHApi.getMoreLongComments(newsId, commentId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+
+    }
+
+    /**
+     * 获取更多短评
+     *
+     * @param newsId
+     * @param commentId
+     * @param subscriber
+     */
+    public void getMoreShortComments(String newsId, String commentId,
+                                     Subscriber<CommentsListBean> subscriber) {
+        mZHApi.getMoreShortComments(newsId, commentId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+
+    }
+
+    /**
+     * 获取新闻的额外信息
+     * 评论数量，所获的『赞』的数量等
+     * @param newsId
+     * @param subscriber
+     */
+    public void getNewsInfo(String newsId, Subscriber<NewsInfoBean> subscriber) {
+        mZHApi.getNewsInfo(newsId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

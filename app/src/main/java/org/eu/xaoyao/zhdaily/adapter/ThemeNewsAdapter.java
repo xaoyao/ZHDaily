@@ -43,7 +43,7 @@ public class ThemeNewsAdapter extends RecyclerView.Adapter<ThemeNewsAdapter.View
     public ThemeNewsAdapter(Context context, ArrayList<ThemeNewsListBean.ThemeNewsBean> themeNewsList) {
         mContext = context;
         mThemeNewsList = themeNewsList;
-        mImageLoader=ImageLoader.getInstance();
+        mImageLoader = ImageLoader.getInstance();
     }
 
     public void setThemeNewsList(ArrayList<ThemeNewsListBean.ThemeNewsBean> themeNewsList) {
@@ -97,7 +97,7 @@ public class ThemeNewsAdapter extends RecyclerView.Adapter<ThemeNewsAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //头布局不做处理
-        if(getItemViewType(position)==TYPE_HEADER){
+        if (getItemViewType(position) == TYPE_HEADER) {
             return;
         }
 
@@ -110,8 +110,16 @@ public class ThemeNewsAdapter extends RecyclerView.Adapter<ThemeNewsAdapter.View
 
         }
 
-        ThemeNewsListBean.ThemeNewsBean entity=mThemeNewsList.get(position);
-        if(entity==null){
+
+        ThemeNewsListBean.ThemeNewsBean entity = null;
+        if (mHeaderView != null) {
+            entity = mThemeNewsList.get(position - 1);
+
+        } else {
+            entity = mThemeNewsList.get(position);
+        }
+
+        if (entity == null) {
             return;
         }
 
@@ -156,7 +164,13 @@ public class ThemeNewsAdapter extends RecyclerView.Adapter<ThemeNewsAdapter.View
         @OnClick(R.id.card_view)
         public void click() {
             Intent intent = new Intent(mContext, NewsDetailActivity.class);
-            String id = mThemeNewsList.get(getAdapterPosition()).id;
+            int position;
+            if(mHeaderView!=null){
+                position=getAdapterPosition()-1;
+            }else {
+                position=getAdapterPosition();
+            }
+            String id = mThemeNewsList.get(position).id;
             intent.putExtra("newsId", id);
             mContext.startActivity(intent);
         }

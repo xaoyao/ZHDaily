@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.eu.xaoyao.zhdaily.MyApplication;
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.adapter.HomeNewsAdapter;
 import org.eu.xaoyao.zhdaily.adapter.TopNewsAdapter;
@@ -172,13 +173,14 @@ public class HomeFragment extends Fragment {
         mLlPoints.removeAllViews();
         //初始化小圆点
         for (int i = 0; i < mTopNewsList.size(); i++) {
-            ImageView imageView = new ImageView(getContext());
+            ImageView imageView = new ImageView(MyApplication.getContext());
+
             imageView.setImageResource(R.drawable.point_selector);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             if (i != 0) {
                 //从第二个原点开始，有6dp的左边距
-                params.leftMargin = DisplayUtil.dip2px(getContext(), 6);
+                params.leftMargin = DisplayUtil.dip2px(MyApplication.getContext(), 6);
             }
             imageView.setLayoutParams(params);
             mLlPoints.addView(imageView);
@@ -257,6 +259,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 ToastUtil.showToast(getActivity(), "网络错误");
+                mHomeNewsAdapter.setIsLoadingBefore(false);
             }
 
             @Override
