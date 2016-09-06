@@ -9,12 +9,10 @@ import org.eu.xaoyao.zhdaily.bean.NewsInfoBean;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.bean.ThemeNewsListBean;
-import org.eu.xaoyao.zhdaily.utils.Utils;
 import org.eu.xaoyao.zhdaily.bean.SplashImage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.IdentityHashMap;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;

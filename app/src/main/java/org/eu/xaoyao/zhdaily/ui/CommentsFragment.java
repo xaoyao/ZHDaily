@@ -3,25 +3,18 @@ package org.eu.xaoyao.zhdaily.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.ConsoleMessage;
 import android.widget.TextView;
 
-import org.eu.xaoyao.zhdaily.BuildConfig;
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.adapter.NewsCommentsAdapter;
 import org.eu.xaoyao.zhdaily.bean.CommentsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsInfoBean;
-import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.http.ZHApiManager;
-import org.eu.xaoyao.zhdaily.utils.LogHelper;
-import org.eu.xaoyao.zhdaily.utils.ToastUtil;
 
 import java.util.ArrayList;
 

@@ -1,25 +1,16 @@
 package org.eu.xaoyao.zhdaily.ui;
 
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ImageView;
 
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.bean.NewsDetailBean;
-import org.eu.xaoyao.zhdaily.http.ImageLoader;
 import org.eu.xaoyao.zhdaily.http.ZHApiManager;
-import org.eu.xaoyao.zhdaily.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

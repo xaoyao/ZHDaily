@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import org.eu.xaoyao.zhdaily.MyApplication;
-import org.eu.xaoyao.zhdaily.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;

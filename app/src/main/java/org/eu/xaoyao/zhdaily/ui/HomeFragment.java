@@ -2,23 +2,17 @@ package org.eu.xaoyao.zhdaily.ui;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.TimeUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ActionMenuView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.eu.xaoyao.zhdaily.MyApplication;
@@ -27,21 +21,12 @@ import org.eu.xaoyao.zhdaily.adapter.HomeNewsAdapter;
 import org.eu.xaoyao.zhdaily.adapter.TopNewsAdapter;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.http.ZHApiManager;
-import org.eu.xaoyao.zhdaily.utils.DisplayUtil;
-import org.eu.xaoyao.zhdaily.utils.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.logging.ErrorManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
