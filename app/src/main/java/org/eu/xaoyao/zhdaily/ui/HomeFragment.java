@@ -21,8 +21,8 @@ import org.eu.xaoyao.zhdaily.adapter.HomeNewsAdapter;
 import org.eu.xaoyao.zhdaily.adapter.TopNewsAdapter;
 import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.http.ZHApiManager;
-import org.eu.xaoyao.zhdaily.utils.DisplayUtil;
-import org.eu.xaoyao.zhdaily.utils.ToastUtil;
+import org.eu.xaoyao.zhdaily.util.DisplayUtil;
+import org.eu.xaoyao.zhdaily.util.ToastUtil;
 
 import java.util.ArrayList;
 

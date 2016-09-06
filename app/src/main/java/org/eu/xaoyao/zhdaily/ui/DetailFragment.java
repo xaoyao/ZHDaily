@@ -11,7 +11,7 @@ import android.webkit.WebView;
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.bean.NewsDetailBean;
 import org.eu.xaoyao.zhdaily.http.ZHApiManager;
-import org.eu.xaoyao.zhdaily.utils.ToastUtil;
+import org.eu.xaoyao.zhdaily.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

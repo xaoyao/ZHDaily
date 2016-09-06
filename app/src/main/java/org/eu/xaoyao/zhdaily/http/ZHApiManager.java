@@ -10,7 +10,7 @@ import org.eu.xaoyao.zhdaily.bean.NewsListBean;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.bean.ThemeNewsListBean;
 import org.eu.xaoyao.zhdaily.bean.SplashImage;
-import org.eu.xaoyao.zhdaily.utils.Utils;
+import org.eu.xaoyao.zhdaily.util.Utils;
 
 import java.io.File;
 import java.io.IOException;

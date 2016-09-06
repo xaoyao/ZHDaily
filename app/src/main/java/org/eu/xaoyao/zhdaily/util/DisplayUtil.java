@@ -1,4 +1,4 @@
-package org.eu.xaoyao.zhdaily.utils;
+package org.eu.xaoyao.zhdaily.util;
 
 import android.content.Context;
 
