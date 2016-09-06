@@ -18,6 +18,7 @@ import org.eu.xaoyao.zhdaily.ActivityCollector;
 import org.eu.xaoyao.zhdaily.R;
 import org.eu.xaoyao.zhdaily.bean.NewsThemesBean;
 import org.eu.xaoyao.zhdaily.http.ZHApiManager;
+import org.eu.xaoyao.zhdaily.utils.ToastUtil;
 
 import rx.Subscriber;
 
