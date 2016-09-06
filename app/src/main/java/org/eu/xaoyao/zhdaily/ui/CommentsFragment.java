@@ -199,6 +199,7 @@ public class CommentsFragment extends Fragment {
                     @Override
                     public void onNext(CommentsListBean commentsListBean) {
                         if (commentsListBean.comments.size() < 1) {
+                            mLongCommentsAdapter.setIsLoadingMore(false);
                             return;
                         }
                         int size = mLongComments.size();
@@ -229,6 +230,7 @@ public class CommentsFragment extends Fragment {
                     @Override
                     public void onNext(CommentsListBean commentsListBean) {
                         if (commentsListBean.comments.size() < 1) {
+                            mShortCommentsAdapter.setIsLoadingMore(false);
                             return;
                         }
                         int size = mShortComments.size();

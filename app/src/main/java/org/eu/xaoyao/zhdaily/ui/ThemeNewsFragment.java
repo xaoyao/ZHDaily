@@ -150,7 +150,7 @@ public class ThemeNewsFragment extends Fragment {
             public void onError(Throwable e) {
                 e.printStackTrace();
                 mSwipeRefreshLayout.setRefreshing(false);
-                ToastUtil.showToast(getContext(), "网络错误");
+//                ToastUtil.showToast(getContext(), "网络错误");
             }
 
             @Override

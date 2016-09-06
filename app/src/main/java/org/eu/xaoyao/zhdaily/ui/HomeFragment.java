@@ -258,7 +258,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                ToastUtil.showToast(getActivity(), "网络错误");
+//                ToastUtil.showToast(getActivity(), "网络错误");
                 mHomeNewsAdapter.setIsLoadingBefore(false);
             }
 

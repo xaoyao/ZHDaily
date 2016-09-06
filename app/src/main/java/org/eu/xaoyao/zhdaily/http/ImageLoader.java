@@ -125,6 +125,7 @@ public class ImageLoader {
 
 
     public void loadImage(final String url, final ImageView imageView) {
+        imageView.setImageBitmap(null);
         imageView.setTag(url);
 
         loadImage(url, new Subscriber<Bitmap>() {
