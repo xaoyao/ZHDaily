@@ -9,8 +9,9 @@ import android.widget.Toast;
 public class ToastUtil {
     private static Toast mToast;
 
+
     /**
-     * 显示一个toast
+     * 显示一个toast，如果存在，重用
      * @param context
      * @param content
      */
@@ -22,5 +23,6 @@ public class ToastUtil {
         }
         mToast.show();
     }
+
 
 }

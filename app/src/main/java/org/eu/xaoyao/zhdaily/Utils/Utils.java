@@ -14,6 +14,7 @@ import java.io.File;
  */
 public class Utils {
 
+
     /**
      * 获取本地缓存文件夹
      * @param context
@@ -31,8 +32,9 @@ public class Utils {
         return new File(cachePath + File.separator + uniqueName);
     }
 
+
     /**
-     * 网络是否可用
+     * 判断网络是否可用
      * @return
      */
     public static boolean isNetworkReachable() {
